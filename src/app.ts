@@ -1,5 +1,7 @@
+import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
+import { auth } from "../lib/auth";
 import { errorHandler } from "./middlewares/error.middleware";
 
 // app initialization
@@ -18,6 +20,9 @@ app.use(
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+// Auth routes
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 // unhandled routes
 app.use((req: Request, res: Response, next: NextFunction) => {
