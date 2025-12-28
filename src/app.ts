@@ -1,8 +1,18 @@
+import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
+import { errorHandler } from "./middlewares/error.middleware";
 
 // app initialization
 const app: Application = express();
 app.use(express.json());
+
+// cors configuration
+app.use(
+  cors({
+    origin: process.env.APP_URL || "http://localhost:4000",
+    credentials: true,
+  })
+);
 
 // Home page route
 app.get("/", (req: Request, res: Response) => {
@@ -16,5 +26,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   next(error);
 });
+
+// Global error handler
+app.use(errorHandler);
 
 export default app;
