@@ -2,6 +2,7 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
 import { auth } from "../lib/auth";
+import { env } from "./config/env";
 import { errorHandler } from "./middlewares/error.middleware";
 
 // app initialization
@@ -11,7 +12,7 @@ app.use(express.json());
 // cors configuration
 app.use(
   cors({
-    origin: process.env.APP_URL || "http://localhost:4000",
+    origin: [env.app.site_url],
     credentials: true,
   })
 );
