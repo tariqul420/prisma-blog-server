@@ -10,5 +10,11 @@ export const auth = betterAuth({
   trustedOrigins: [env.app.site_url],
   emailAndPassword: {
     enabled: true,
+    autoSignIn: false,
+    requireEmailVerification: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
   },
 });

@@ -17,6 +17,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  posts         Post[]
+  comments      Comment[]
+  role          UserRole  @default(USER)
+  phone         String?   @unique
 
   @@unique([email])
   @@map("user")
@@ -80,6 +84,7 @@ model Post {
   tags       String[]
   views      Int        @default(0)
   authorId   String
+  author     User       @relation(fields: [authorId], references: [id])
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   comments   Comment[]
@@ -92,6 +97,7 @@ model Comment {
   id        String        @id @default(uuid())
   content   String        @db.Text
   authorId  String
+  author    User          @relation(fields: [authorId], references: [id])
   postId    String
   post      Post          @relation(fields: [postId], references: [id])
   parentId  String?
@@ -104,6 +110,11 @@ model Comment {
   @@index([postId])
   @@index([authorId])
   @@map("comment")
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 enum PostStatus {
